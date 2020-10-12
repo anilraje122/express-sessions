@@ -1,0 +1,17 @@
+{
+  "name": "basics",
+  "version": "1.0.0",
+  "description": "Express Basics",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "ths",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
