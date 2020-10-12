@@ -2,26 +2,31 @@ const express = require("express");
 const app = express();
 
 const port = process.env.PORT || 3000;
+/*
+clientData :
+1)Query Params
+2)Headers
+3)Body object
+4)HTTP Method
+5)Path
+6)Router Params
+*/
+
+app.get('/:abc', (req, res) => {
+
+    //Router Params
+    console.log(req.params);
+    res.end();
+})
 
 
+app.get('/home/:uname', (req, res) => {
 
-// app.get('/hello', (req, res) => {
-//     res.json({ status: "Success. You are at /" });
-// });
-// app.post('/hello', (req, res) => {
-//     res.json({ status: "Success. You are at /hello POST method" });
-// });
-// app.put('/hello', (req, res) => {
-//     res.json({ status: "Success. You are at /hello PUT method" });
-// });
-// app.delete('/hello', (req, res) => {
-//     res.json({ status: "Success. You are at /hello DELETE method" });
-// });
-
-
-app.all('/hello', (req, res) => {
-    res.json({ status: "Success. You are at /" });
-    console.log(req.method);
+    //Router Params
+    console.log(req.params);
+    //Query Params
+    console.log(req.query);
+    res.send('I m taking hit');
 })
 
 
