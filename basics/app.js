@@ -12,22 +12,39 @@ clientData :
 6)Router Params
 */
 
-app.get('/:abc', (req, res) => {
-
-    //Router Params
-    console.log(req.params);
-    res.end();
-})
-
-
-app.get('/home/:uname', (req, res) => {
-
-    //Router Params
-    console.log(req.params);
+app.get('/', (req, res) => {
     //Query Params
     console.log(req.query);
-    res.send('I m taking hit');
-})
+    //Router Params
+    console.log(req.params);
+    //HTTP Method
+    console.log(req.method);
+    //Headers
+    console.log(req.headers);
+    res.end();
+});
+
+//Why Express over Node JS?
+//Node : 
+//MVC - Model, View, Controller (MVC Frameworks) Express/express-generator
+//Middleware
+/* /home route - middleware */
+app.get('/home', (req, res, next) => {
+    //Query Params
+    console.log(req.query);
+    req.some_value = "Prashanth";
+    console.log("I am Hit 1");
+    next();
+
+}, (req, res,next) => {
+    console.log("I am Hit 2");
+    console.log(req.some_value);
+    res.send("Check Console for Query Data");
+    next();
+}, (req, res) => {
+    console.log("I am Hit 3");
+    console.log(" I am End");
+});
 
 
 app.listen(port, () => {
