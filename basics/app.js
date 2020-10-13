@@ -1,20 +1,18 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 
 const port = process.env.PORT || 3000;
 
 //Application Level Middleware
-app.use((req,res,next)=>{
-    console.log(req.query);
-    console.log("I am the Primary Hit");
+app.use(bodyParser.json());
+
+//To demonstrate path
+app.use((req, res, next) => {
+    console.log(req.originalUrl);
     next();
 });
 
-app.use((req,res,next)=>{
-    console.log(req.query);
-    console.log("I am the Secondary Hit");
-    next();
-});
 
 /*
 clientData :
@@ -35,6 +33,10 @@ app.get('/', (req, res) => {
     console.log(req.method);
     //Headers
     console.log(req.headers);
+    //Body Data
+    console.log(req.body);
+    //Path
+    console.log(req.originalUrl);
     res.end();
 });
 
@@ -86,7 +88,7 @@ app.get('/root', cb0, cb1, cb2);
 
 
 //next() example 3
-app.get('/com', [cb0,cb1,cb2]);
+app.get('/com', [cb0, cb1, cb2]);
 
 
 app.listen(port, () => {
