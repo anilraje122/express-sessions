@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 
@@ -89,6 +90,26 @@ app.get('/root', cb0, cb1, cb2);
 
 //next() example 3
 app.get('/com', [cb0, cb1, cb2]);
+
+
+app.get('/hello', (req, res) => {
+    // res.sendStatus(500); //Only Status Code as Response
+    res.status(200).json({"Status" : "Success"});
+});
+
+app.get("/download", (req, res) => {
+    const filePath = path.join(__dirname, 'dummy.pdf');
+    res.download(filePath);
+});
+
+app.get("/:somepath", (req, res) => {
+    res.send(req.params);
+});
+
+app.get("/home/buy", (req, res) => {
+    console.log("We can implement our business logic before sending any response");
+    res.redirect('/hello');
+})
 
 
 app.listen(port, () => {
