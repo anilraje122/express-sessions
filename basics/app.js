@@ -1,12 +1,11 @@
 const express = require("express");
 const path = require("path");
-const bodyParser = require("body-parser");
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-//Application Level Middleware
-app.use(bodyParser.json());
+//Application Level Middleware1
+app.use(express.json());
 
 //To demonstrate path
 app.use((req, res, next) => {
