@@ -11,7 +11,11 @@ app.use(express.static("views"));
 
 app.use("/home", express.static("views"));
 
-app.use("/books", serveIndex('Books', { 'icons': true }), express.static("Books"));
+app.use("/books", serveIndex("Books", { 'icons': true }));
+app.use("/books", express.static("Books"));
+
+
+// app.use("/books", serveIndex('Books', { 'icons': true }), express.static("Books"));
 
 app.get('/download/:fileid', (req, res) => {
     const filePath = path.join(__dirname, req.params.fileid);
