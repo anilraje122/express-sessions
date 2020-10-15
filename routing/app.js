@@ -2,6 +2,9 @@ const express = require("express");
 const fs = require("fs");
 const app = express();
 
+/* Import the Router Moudles */
+const adminRoutes = require('./routes/admin');
+
 const port = process.env.PORT || 3000;
 
 /* IP Logging Middleware */
@@ -23,23 +26,12 @@ Lets assume a scenario where there are three user roles.
 3) Manager
 
 */
+/* Root Home Page */
+app.use(express.static('public'));
+//Admin Router
+app.use('/admin',adminRoutes);
 
-// app.get('/', (req, res) => {
-//     res.send("Hello there");
-//     console.log(req.method);
-// });
-// app.post('/', (req, res) => {
-//     res.send("Hello there");
-//     console.log(req.method);
-// });
-/* The above routes can be chianed like below */
-app.get('/', (req, res) => {
-    res.send("Hello there");
-    console.log(req.method);
-}).post('/', (req, res) => {
-    res.send("Hello there");
-    console.log(req.method);
-});
+
 
 
 app.listen(port, () => {
