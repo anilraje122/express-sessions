@@ -28,14 +28,13 @@ Lets assume a scenario where there are three user roles.
 3) Manager
 
 */
-/* Root Home Page */
 
 //Admin Router
 app.use('/admin',adminRoutes);
 //Manager Router
 app.use('/manager', managerRoutes);
 //User Router
-app.use('/',userRoutes);// /
+app.use(userRoutes);
 
 
 app.listen(port, () => {
