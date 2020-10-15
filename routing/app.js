@@ -4,6 +4,7 @@ const app = express();
 
 /* Import the Router Moudles */
 const adminRoutes = require('./routes/admin');
+const managerRoutes = require('./routes/manager');
 
 const port = process.env.PORT || 3000;
 
@@ -30,6 +31,8 @@ Lets assume a scenario where there are three user roles.
 app.use(express.static('public'));
 //Admin Router
 app.use('/admin',adminRoutes);
+//Manager Router
+app.use('/manager', managerRoutes);
 
 
 
