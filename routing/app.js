@@ -24,10 +24,22 @@ Lets assume a scenario where there are three user roles.
 
 */
 
+// app.get('/', (req, res) => {
+//     res.send("Hello there");
+//     console.log(req.method);
+// });
+// app.post('/', (req, res) => {
+//     res.send("Hello there");
+//     console.log(req.method);
+// });
+/* The above routes can be chianed like below */
 app.get('/', (req, res) => {
     res.send("Hello there");
+    console.log(req.method);
+}).post('/', (req, res) => {
+    res.send("Hello there");
+    console.log(req.method);
 });
-
 
 
 app.listen(port, () => {
