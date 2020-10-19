@@ -3,6 +3,8 @@ const app = express();
 //Import DB Connection
 require('./dbConnect');
 
+//Import User Models
+const Users = require('./models/Users');
 
 
 
