@@ -9,12 +9,23 @@ const mongoose = require("mongoose");
 // });
 
 //Write it in Promise
-mongoose.connect("mongodb://localhost/users", { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('Successfully Connected to Mongo DB.');
-    })
-    .catch((err) => {
-        console.error(err);
-    })
+// mongoose.connect("mongodb://localhost/db_name", { useNewUrlParser: true, useUnifiedTopology: true })
+//     .then(() => {
+//         console.log('Successfully Connected to Mongo DB.');
+//     })
+//     .catch((err) => {
+//         console.error('Something Wrong with Mongo DB Server. Please check the connection');
+//     })
 
 //Lets write in async await
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect("mongodb://localhost/db_name", { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log('Successfully Connected to Mongo DB.');
+    } catch (err) {
+        console.error('Something Wrong with Mongo DB Server. Please check the connection');
+    }
+}
+
+connectDB();
