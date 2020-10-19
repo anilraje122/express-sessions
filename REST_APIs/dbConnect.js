@@ -22,7 +22,7 @@ const config = require('./config/default.json');
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(config.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect(config.MONGO_LOCAL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex : true });
         console.log('Successfully Connected to Mongo DB.');
     } catch (err) {
         console.error('Something Wrong with Mongo DB Server. Please check the connection');
