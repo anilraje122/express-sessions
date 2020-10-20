@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
 
 });
 
+//User Registration
 router.post('/', async (req, res) => {
     try {
         const user = new User(req.body);
@@ -38,8 +39,15 @@ router.put('/', (req, res) => {
     res.send(req.method);
 });
 
-router.delete('/', (req, res) => {
-    res.send(req.method);
+//Delete the user
+router.delete('/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        await User.deleteOne({ email: email });
+        res.status(200).json({ "Message": "Successfully Deleted" });
+    } catch (err) {
+        res.status(500).json({ "error": err });
+    }
 });
 
 module.exports = router;
