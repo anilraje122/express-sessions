@@ -8,7 +8,7 @@ const router = express.Router();
 //Fetch all the Users in the Database
 router.get('/', async (req, res) => {
     try {
-        const userData = await User.find({},'-password -_id');
+        const userData = await User.find({}, '-password -_id');
         res.status(200).json(userData);
     } catch (err) {
         res.status(500).json({ "error": err });
@@ -24,8 +24,14 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post('/', (req, res) => {
-    res.send(req.method);
+router.post('/', async (req, res) => {
+    try {
+        const user = new User(req.body);
+        await user.save();
+        res.send({ "status": "User Registered Succesfully" });
+    } catch (err) {
+        res.status(500).json({ "error": err });
+    }
 });
 
 router.put('/', (req, res) => {

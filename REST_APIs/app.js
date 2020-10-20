@@ -10,6 +10,8 @@ require('./dbConnect');
 
 const port = process.env.PORT || 3000;
 
+app.use(express.json());
+
 app.get('/', (req,res)=>{
     res.send("This is Home Route");
 });
