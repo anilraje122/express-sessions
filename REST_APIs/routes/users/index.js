@@ -6,16 +6,21 @@ const router = express.Router();
 
 
 //Fetch all the Users in the Database
-router.get('/', (req, res) => {
-    
+router.get('/', async (req, res) => {
+    try {
+        const userData = await User.find({},'-password -_id');
+        res.status(200).json(userData);
+    } catch (err) {
+        res.status(500).json({ "error": err });
+    }
 
-    User.find({}, (err, userData) => {
-        if (err) {
-            throw err;
-        } else {
-            res.send(userData);
-        }
-    })
+    // User.find({}, (err, userData) => {
+    //     if (err) {
+    //         throw err;
+    //     } else {
+    //         res.send(userData);
+    //     }
+    // })
 
 });
 
