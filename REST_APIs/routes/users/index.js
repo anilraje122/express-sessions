@@ -1,19 +1,33 @@
 const express = require("express");
+//Import Models 
+const User = require('../../models/Users');
+
 const router = express.Router();
 
-router.get('/', (req,res)=>{
+
+//Fetch all the Users in the Database
+router.get('/', (req, res) => {
+    
+
+    User.find({}, (err, userData) => {
+        if (err) {
+            throw err;
+        } else {
+            res.send(userData);
+        }
+    })
+
+});
+
+router.post('/', (req, res) => {
     res.send(req.method);
 });
 
-router.post('/', (req,res)=>{
+router.put('/', (req, res) => {
     res.send(req.method);
 });
 
-router.put('/', (req,res)=>{
-    res.send(req.method);
-});
-
-router.delete('/', (req,res)=>{
+router.delete('/', (req, res) => {
     res.send(req.method);
 });
 
