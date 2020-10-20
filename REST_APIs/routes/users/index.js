@@ -35,8 +35,27 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', (req, res) => {
-    res.send(req.method);
+//Edit Profile Route for User
+
+router.put('/:id', async (req, res) => {
+    try {
+        const userID = req.params.id;
+        const userData = await User.findById(userID);
+        if(req.body.firstName){
+            userData.firstName = req.body.firstName;
+        }
+        if(req.body.lastName){
+            userData.lastName = req.body.lastName;
+        }
+        if(req.body.password){
+            userData.password = req.body.password;
+        }
+        const user = new User(userData);
+        await user.save();   
+        res.send(userData);
+    } catch (err) {
+        res.status(500).json({ "error": err });
+    }
 });
 
 //Delete the user
