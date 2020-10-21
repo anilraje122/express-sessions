@@ -33,8 +33,13 @@ router.post('/', [
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        // const user = new User(req.body);
-        // await user.save();
+        const user = await User.findOne({ email: req.body.email });
+        if (user) {
+            return res.status(400).json({ "Error": "User Already Exists!" });
+        }
+        const userData = new User(req.body);
+        console.log(userData);
+        // await userData.save();
         res.send({ "status": "User Registered Succesfully" });
     } catch (err) {
         res.status(500).json({ "error": err });
