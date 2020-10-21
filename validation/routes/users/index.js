@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require("bcrypt");
 //Import Models 
 const User = require('../../models/Users');
+const { findOne } = require("../../models/Users");
 
 const router = express.Router();
 
@@ -42,10 +43,10 @@ router.post('/', [
         //Hash the Password
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
-        userData.password = await bcrypt.hash(req.body.password,salt);
+        userData.password = await bcrypt.hash(req.body.password, salt);
         console.log(salt)
         console.log(userData);
-    
+
         await userData.save();
         res.send({ "status": "User Registered Succesfully" });
     } catch (err) {
@@ -55,10 +56,33 @@ router.post('/', [
 
 
 //Implement Login Route
+router.post('/login', [
+    body("email", "Enter Valid Email Address").isEmail(),
+    body("password", "Password is Required").notEmpty()
+],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        try {
+            const user = await User.findOne({ email: req.body.email });
+            if (!user) {
+                return res.status(500).json({ "Error": "Invalid Credentials" });
+            }
+            const result = await bcrypt.compare(req.body.password, user.password);
+
+            if (result) {
+                return res.status(200).json({ "Success": "Login Success" });
+            }
+            return res.status(400).json({ "Error": "Invalid Credentials" });
 
 
+        } catch (err) {
+            res.status(500).json({ "error": err });
+        }
 
-
+    })
 
 
 //Edit Profile Route for User
