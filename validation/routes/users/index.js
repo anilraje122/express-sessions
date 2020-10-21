@@ -1,5 +1,6 @@
 const express = require("express");
 const { body, validationResult } = require('express-validator');
+const bcrypt = require("bcrypt");
 //Import Models 
 const User = require('../../models/Users');
 
@@ -37,14 +38,28 @@ router.post('/', [
         if (user) {
             return res.status(400).json({ "Error": "User Already Exists!" });
         }
-        const userData = new User(req.body);
+        let userData = new User(req.body);
+        //Hash the Password
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        userData.password = await bcrypt.hash(req.body.password,salt);
+        console.log(salt)
         console.log(userData);
-        // await userData.save();
+    
+        await userData.save();
         res.send({ "status": "User Registered Succesfully" });
     } catch (err) {
         res.status(500).json({ "error": err });
     }
 });
+
+
+//Implement Login Route
+
+
+
+
+
 
 //Edit Profile Route for User
 
