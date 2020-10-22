@@ -13,7 +13,8 @@ router.get('/dashboard/:email', async (req, res) => {
   try {
     const email = req.params.email;
     let userData = await User.findOne({ email: email });
-    userData = userData.toJSON();
+    // console.log(Array.isArray(userData));
+    // userData = userData.toJSON();
     res.render('dashboard', {
       firstName: userData.firstName,
       lastName: userData.lastName
