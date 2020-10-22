@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require("bcrypt");
 //Import Models 
 const User = require('../../models/Users');
-const { findOne } = require("../../models/Users");
+
 
 const router = express.Router();
 
@@ -41,8 +41,9 @@ router.post('/', [
         }
         let userData = new User(req.body);
         //Hash the Password
-        const saltRounds = 10;
+        const saltRounds = 15;
         const salt = await bcrypt.genSalt(saltRounds);
+        console.log(salt)
         userData.password = await bcrypt.hash(req.body.password, salt);
         console.log(salt)
         console.log(userData);
