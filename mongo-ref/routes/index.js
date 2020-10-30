@@ -15,8 +15,6 @@ router.get('/', async (req, res, next) => {
 });
 
 
-
-
 /* Create a Seller Profile */
 
 router.post('/', async (req, res) => {
