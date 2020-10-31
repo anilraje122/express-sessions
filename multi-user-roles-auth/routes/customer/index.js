@@ -14,14 +14,13 @@ Public Route
 router.post('/register', [
     body("name", "Please Enter Valid Name").notEmpty().isString(),
     body("email", "Please Enter Valid EMail").isEmail(),
-    body("role", "Role is Required"), notEmpty(),
+    body("role", "Role is Required").notEmpty(),
     body("password", "Password is Required").isLength({ min: 6 })
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
     try {
 
 
