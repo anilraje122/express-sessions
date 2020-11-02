@@ -10,10 +10,11 @@ require('./dbConnect');
 //Importing Routes
 const customerRouter = require('./routes/customer');
 const adminRouter = require('./routes/admin');
-
+const authRouter = require("./routes/auth");
 
 app.use('/api/customer', customerRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/auth',authRouter);
 
 
 
