@@ -52,7 +52,7 @@ router.post('/register', [
         await customer.save();
         const verifyURL = `http://hfs.iprashanth.com/api/customer/verify/${emailtoken}`;
         const subject = "XYZ Solutions Email Verification";
-        const html = pug.renderFile(__dirname + '/email.pug', {name : name, verifyURL : verifyURL});
+        const html = pug.renderFile(__dirname + '/email.pug', { name: name, verifyURL: verifyURL });
         //Trigger Verification Email
         Mailer(email, subject, html);
         //Prepare the Payload for access token
@@ -72,7 +72,20 @@ router.post('/register', [
 });
 
 
-
-
+/*
+Route : /api/customer/verify/:emailtoken
+To Verify New Customer Email
+Public Route
+*/
+router.get('/verify/:emailtoken', async (req, res, next) => {
+    try {
+        const emailtoken = req.params.emailtoken;
+        const data = await Customer.findOneAndUpdate({ emailtoken }, { $set: { active: true } });
+        res.send(`<h1> ${data.email} is successfully verified. </h1>`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ "Error": "Server Error" });
+    }
+});
 
 module.exports = router;
