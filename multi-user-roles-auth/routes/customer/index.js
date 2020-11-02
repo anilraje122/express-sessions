@@ -1,11 +1,13 @@
 const express = require("express");
+const pug = require("pug");
+const config = require("../../config/default.json");
 const router = express.Router();
 const randomstring = require("randomstring");
 const { body, validationResult } = require('express-validator');
 
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-
+const { AES } = require("crypto-js");
 const Mailer = require("../../controllers/mailController");
 
 
@@ -31,26 +33,37 @@ router.post('/register', [
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const {name,email,role} = req.body;
-        let customer = await Customer.findOne({email});
-        let admin = await Admin.findOne({email});
-        if(customer){
-            return res.status(500).json({Error : `${email} is already registered as a Customer`});
+        const { name, email, role } = req.body;
+        let customer = await Customer.findOne({ email });
+        let admin = await Admin.findOne({ email });
+        if (customer) {
+            return res.status(500).json({ Error: `${email} is already registered as a Customer` });
         }
-        if(admin){
-            return res.status(500).json({Error : `${email} is already registered as an Admin`});
+        if (admin) {
+            return res.status(500).json({ Error: `${email} is already registered as an Admin` });
         }
         //Hash the Password
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
-        const password = await bcrypt.hash(req.body.password,salt);
+        const password = await bcrypt.hash(req.body.password, salt);
         const emailtoken = randomstring.generate();
 
-        customer = new Customer({name,email,role,emailtoken,password});
-        //await cusomer.save();
-        const verifyURL = `https://hfs.iprashanth.com/api/customer/verify/${emailtoken}`;
+        customer = new Customer({ name, email, role, emailtoken, password });
+        await customer.save();
+        const verifyURL = `http://hfs.iprashanth.com/api/customer/verify/${emailtoken}`;
         const subject = "XYZ Solutions Email Verification";
-        
+        const html = pug.renderFile(__dirname + '/email.pug', {name : name, verifyURL : verifyURL});
+        //Trigger Verification Email
+        Mailer(email, subject, html);
+        //Prepare the Payload for access token
+        const payload = {
+            customer: customer._id,
+            role: customer.role
+        }
+        //Create jwt access token
+        const token = await jwt.sign(payload, config.SECRET_KEY, { expiresIn: 500 });
+        const cypherToken = AES.encrypt(token, config.CRYPTO_KEY).toString();
+        res.status(200).json({ token: cypherToken });
 
     } catch (err) {
         console.error(err);

@@ -1,4 +1,6 @@
 {
     "USERNAME": "admin@anilraj.space",
-    "PASSWORD": "P@ssw0rd@123"
+    "PASSWORD": "P@ssw0rd@123",
+    "SECRET_KEY":"ALGEBRA2020THS",
+    "CRYPTO_KEY":"THEHACKINGSCHOOL"
 }
