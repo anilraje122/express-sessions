@@ -18,9 +18,6 @@ const customerProfileSchema = new Schema({
     phone: {
         type: String
     },
-    company: {
-        type: String
-    },
     isOpen: {
         type: Boolean,
         default: false
