@@ -11,12 +11,7 @@ Route : /api/customer/profile  POST
 Add Customer Profile
 Private Route
 */
-router.post("/", [authMiddleware, [
-    body("address", "Address Contains Only 150 Characters").isString().isLength({ max: 150 }),
-    body("website", "Enter Valid Website").isString(),
-    body("location", "Enter Valid City Name").isString(),
-    body("phone", "Enter Valid Phone Number").isString()
-]], async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -70,14 +65,17 @@ router.post("/", [authMiddleware, [
                 },
                 {
                     $set: profileFields
+                },
+                {
+                    new: true
                 }
             );
-            return res.status(200).json({ Success: "Profile Updated" });
+            return res.status(200).json({ customerProfile });
         }
         //Create a New Profile
         customerProfile = new CustomerProfile(profileFields);
         await customerProfile.save();
-        return res.status(200).json({ Success: "New Profile Created" });
+        return res.status(200).json({ customerProfile });
 
     } catch (error) {
         console.error(error);
