@@ -31,7 +31,28 @@ router.post('/signup', async (req, res) => {
 
 /* Users Login UI */
 router.get('/login', (req, res) => {
-  res.render("login");
+  res.render("login", { display: false });
+});
+
+/* User Login POST Route */
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const userData = await Users.findOne({ email });
+    //If Email ID Doesnt exist
+    if (!userData) {
+      return res.render("login", { display: true, message: "Email Not Found in our DB" });
+    }
+    const isValid = await bcrypt.compare(password, userData.password);
+    if (!isValid) {
+      return res.render("login", { display: true, message: "InCorrect Password." });
+
+    }
+    res.redirect("/");
+
+  } catch (err) {
+    return res.status(500).json({ "Error": "Server Error" });
+  }
 });
 
 module.exports = router;
