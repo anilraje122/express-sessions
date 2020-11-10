@@ -5,6 +5,7 @@ var router = express.Router();
 //Import Models
 const Users = require("../models/Users");
 
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
@@ -54,5 +55,6 @@ router.post('/login', async (req, res) => {
     return res.status(500).json({ "Error": "Server Error" });
   }
 });
+
 
 module.exports = router;
